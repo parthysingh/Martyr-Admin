@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gujarat Police Martyrs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #1E90FF;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            height: 700px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sidebar h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            flex-grow: 1;
+            position: relative;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .navigation {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-btn:hover {
+            background-color: lightgrey;
+        }
+
+        .small-logout-btn {
+            top: 10px;
+            left: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .small-logout-btn:hover {
+            background-color: darkred;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #6c757d;
+            color: white;
+            padding: 8px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .quote {
+            text-align: center;
+            font-style: italic;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .login-section, 
+        .dashboard-section, 
+        .martyr-section, 
+        .memorial-section, 
+        .events-section {
+            display: none;
+            width: 100%;
+        }
+
+        .active {
+            display: block;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid var(--secondary-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .login-btn:hover {
+            background-color: #003d82;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .dashboard-option {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+                max-width: 500px;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h1>Gujarat Police Martyrs</h1>
+            <p class="quote">"Sacrifice is the highest form of service. Our martyrs remind us that true courage knows no fear."</p>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <button class="small-logout-btn" onclick="logout()" style="display:none;">Logout</button>
+
+            <!-- Login Section -->
+            <section class="login-section active">
+                <h2 class="form-header">Admin Login</h2>
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button class="btn login-btn" onclick="login()">Login</button>
+            </section>
+            <!-- Dashboard Section -->
+            <section class="dashboard-section">
+                <div class="navigation">
+                </div>
+                <h2 class="form-header">Memorial Management</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-option" onclick="showMartyrSection()">
+                        <h3>Martyr Details</h3>
+                    </div>
+                    <div class="dashboard-option" onclick="showMemorialSection()">
+                        <h3>Gallery</h3>
+                    </div>
+                    <div class="dashboard-option" onclick="showEventsSection()">
+                        <h3>Commemorative Events</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- New Martyr Details Section -->
+            <section class="martyr-section">
+                <div class="navigation">
+                    <button class="back-btn" onclick="showDashboard()">Back</button>
+                </div>
+                <h2 class="form-header">Martyr Profile</h2>
+                <input type="text" id="martyr-name" placeholder="Martyr's Full Name">
+                <input type="text" id="martyr-incident" placeholder="Incident Details">
+                <input type="number" id="martyr-year" placeholder="Year of Martyrdom">
+                <input type="text" id="martyr-organisation" placeholder="Organisation">
+                <input type="text" id="martyr-rank" placeholder="Rank">
+                <input type="file" id="martyr-photo" accept="image/*">
+                <button class="btn login-btn" onclick="submitMartyrDetails()">Submit Profile</button>
+            </section>
+
+            <!-- Memorial Gallery Section -->
+            <section class="memorial-section">
+                <div class="navigation">
+                    <button class="back-btn" onclick="showDashboard()">Back</button>
+                </div>
+                <h2 class="form-header">Memorial Gallery</h2>
+                <input type="text" id="memorial-event-name" placeholder="Event/Memorial Name">
+                <input type="file" id="memorial-media" accept="image/*,video/*" multiple>
+                <button class="btn login-btn" onclick="submitMemorialGallery()">Upload Media</button>
+            </section>
+
+            <!-- Events Section -->
+            <section class="events-section">
+                <div class="navigation">
+                    <button class="back-btn" onclick="showDashboard()">Back</button>
+                </div>
+                <h2 class="form-header">Commemorative Events</h2>
+                <input type="text" id="event-name" placeholder="Event Name">
+                <input type="date" id="event-date" placeholder="Event Date">
+                <input type="text" id="event-location" placeholder="Location">
+                <button class="btn login-btn" onclick="submitEvent()">Add Event</button>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Sections
+        const sections = {
+            login: document.querySelector('.login-section'),
+            dashboard: document.querySelector('.dashboard-section'),
+            martyr: document.querySelector('.martyr-section'),
+            memorial: document.querySelector('.memorial-section'),
+            events: document.querySelector('.events-section')
+        };
+
+        // Small logout button
+        const smallLogoutBtn = document.querySelector('.small-logout-btn');
+
+        // Hide all sections
+        function hideAllSections() {
+            Object.values(sections).forEach(section => {
+                section.classList.remove('active');
+            });
+        }
+
+        // Show a specific section
+        function showSection(section) {
+            hideAllSections();
+            section.classList.add('active');
+        }
+
+        // Login Function
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'admin' && password === 'password') {
+                showSection(sections.dashboard);
+                smallLogoutBtn.style.display = 'block'; // Show small logout button
+            } else {
+                alert('Invalid Login Credentials');
+            }
+        }
+
+        // Logout Function
+        function logout() {
+            showSection(sections.login);
+            // Clear input fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            smallLogoutBtn.style.display = 'none'; // Hide small logout button
+        }
+
+        // Navigation Functions
+        function showDashboard() {
+            showSection(sections.dashboard);
+        }
+
+        function showMartyrSection() {
+            showSection(sections.martyr);
+        }
+
+        function showMemorialSection() {
+            showSection(sections.memorial);
+        }
+
+        function showEventsSection() {
+            showSection(sections.events);
+        }
+
+        // Submission Functions
+        function submitMartyrDetails() {
+            const name = document.getElementById('martyr-name').value;
+            const incident = document.getElementById('martyr-incident').value;
+            const year = document.getElementById('martyr-year').value;
+            const organisation = document.getElementById('martyr-organisation').value;
+            const rank = document.getElementById('martyr-rank').value;
+            const photo = document.getElementById('martyr-photo').files[0];
+
+            if (name && incident && year && organisation && rank && photo) {
+                alert('Martyr Details Submitted Successfully');
+                showSection(sections.dashboard);
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+
+        function submitMemorialGallery() {
+            const eventName = document.getElementById('memorial-event-name').value;
+            const media = document.getElementById('memorial-media').files;
+
+            if (eventName && media.length > 0) {
+                alert('Memorial Gallery Submitted Successfully');
+                showSection(sections.dashboard);
+            } else {
+                alert('Please enter event name and select media');
+            }
+        }
+
+        function submitEvent() {
+            const name = document.getElementById('event-name').value;
+            const date = document.getElementById('event-date').value;
+            const location = document.getElementById('event-location').value;
+
+            if (name && date && location) {
+                alert('Commemorative Event Added Successfully');
+                showSection(sections.dashboard);
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+    </script>
+</body>
+</html>
